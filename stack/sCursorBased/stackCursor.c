@@ -5,17 +5,17 @@
 
 static int allocNode(Stack *s)
 {
-    if (s->freeList == -1)
+    if (s->avail == -1)
         return -1;
-    int idx = s->freeList;
-    s->freeList = s->pool[idx].next;
-    return idx;
+    int retVal = s->avail;
+    s->avail = s->elems[retVal].next;
+    return retVal;
 }
 
-static void freeNode(Stack *s, int idx)
+static void freeNode(Stack *s, int i)
 {
-    s->pool[idx].next = s->freeList;
-    s->freeList = idx;
+    s->elems[i].next = s->avail;
+    s->avail = i;
 }
 
 void initStack(Stack *s)
@@ -23,9 +23,9 @@ void initStack(Stack *s)
     s->top = -1;
     s->size = 0;
     for (int i = 0; i < MAX - 1; ++i)
-        s->pool[i].next = i + 1;
-    s->pool[MAX - 1].next = -1;
-    s->freeList = 0;
+        s->elems[i].next = i + 1;
+    s->elems[MAX - 1].next = -1;
+    s->avail = 0;
 }
 
 Stack newStack()
@@ -41,7 +41,7 @@ bool isEmpty(Stack s)
 
 bool isFull(Stack s)
 {
-    return s.freeList == -1;
+    return s.avail == -1;
 }
 
 bool push(Stack *s, Student stud)
@@ -49,8 +49,8 @@ bool push(Stack *s, Student stud)
     int idx = allocNode(s);
     if (idx == -1)
         return false;
-    s->pool[idx].data = stud;
-    s->pool[idx].next = s->top;
+    s->elems[idx].data = stud;
+    s->elems[idx].next = s->top;
     s->top = idx;
     s->size++;
     return true;
@@ -61,7 +61,7 @@ bool pop(Stack *s)
     if (isEmpty(*s))
         return false;
     int idx = s->top;
-    s->top = s->pool[idx].next;
+    s->top = s->elems[idx].next;
     freeNode(s, idx);
     s->size--;
     return true;
@@ -69,7 +69,7 @@ bool pop(Stack *s)
 
 Student peek(Stack s)
 {
-    return s.pool[s.top].data;
+    return s.elems[s.top].data;
 }
 
 void visualize(Stack s)
@@ -85,8 +85,8 @@ void visualize(Stack s)
     int index = s.size - 1;
     while (curr != -1)
     {
-        printf("%5d | %5d | %15s | %5c | %7s | %5d\n", index, s.pool[curr].data.id, s.pool[curr].data.name, s.pool[curr].data.sex, s.pool[curr].data.program, s.pool[curr].data.year);
-        curr = s.pool[curr].next;
+        printf("%5d | %5d | %15s | %5c | %7s | %5d\n", index, s.elems[curr].data.id, s.elems[curr].data.name, s.elems[curr].data.sex, s.elems[curr].data.program, s.elems[curr].data.year);
+        curr = s.elems[curr].next;
         index--;
     }
 }

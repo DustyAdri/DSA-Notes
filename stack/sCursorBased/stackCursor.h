@@ -20,9 +20,9 @@ typedef struct {
 } CursorNode;
 
 typedef struct {
-    CursorNode pool[MAX];
+    CursorNode elems[MAX];
     int top;
-    int freeList;
+    int avail;
     int size;
 } Stack;
 
