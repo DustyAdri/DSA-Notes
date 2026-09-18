@@ -59,7 +59,7 @@ void deleteRear(List *list) {
 }
 
 void deletePosition(List *list, int position) {
-    if(position >= 1) {
+    if(position > 0) {
         Node **trav = list;
         for(int i = 1; *trav != NULL && i < position; i++, trav = &(*trav)->next) {}
         if(*trav != NULL) {

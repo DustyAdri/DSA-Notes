@@ -64,7 +64,6 @@ void insertSorted(VHeap *vh, List *list, int item) {
     if(vh->avail != -1) {
         List *trav;
         for(trav = list; *trav != -1 && item > vh->elems[*trav].data; trav = &vh->elems[*trav].next) {}
-
         List temp = allocSpace(vh);
         vh->elems[temp].data = item;
         vh->elems[temp].next = *trav;

@@ -68,6 +68,22 @@ bool insertAt(List *list, int index, int item)
     return false;
 }
 
+bool insertSorted(List *list, int item)
+{
+    if(list->count < list->size)
+    {
+        int i = list->count - 1;
+        for(i; i >= 0 && item < list->elems[i]; --i)
+        {
+            list->elems[i + 1] = list->elems[i];
+        }
+        list->elems[i + 1] = item;
+        list->count++;
+        return true;
+    }
+    return false;
+}
+
 bool deleteFront(List *list)
 {
     if(list->count != 0)

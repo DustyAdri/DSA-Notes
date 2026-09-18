@@ -18,6 +18,7 @@ void display(List list);
 bool insertFront(List *list, int item);
 bool insertRear(List *list, int item);
 bool insertAt(List *list, int index, int item);
+bool insertSorted(List *list, int item);
 bool deleteFront(List *list);
 bool deleteRear(List *list);
 int deleteAllItem(List *list, int item);

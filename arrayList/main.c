@@ -1,4 +1,5 @@
 #include "MYLIST.H"
+#include <stdbool.h>
 #include <stdio.h>
 
 int main ()
@@ -10,17 +11,19 @@ int main ()
     printf("\n=== 2. TESTING INSERTIONS ===\n");
     insertRear(&list, 20);
     insertRear(&list, 30);
-    display(list); //  20 30 
+    display(list); // 20 30
 
     insertFront(&list, 10);
     display(list); // 10 20 30
 
     insertAt(&list, 1, 15); // Insert 15 at index 1
-    display(list); //  10 15 20 30 
+    display(list); // 10 15 20 30
 
-    insertRear(&list, 20); // Add duplicate for deletion tests
-    insertRear(&list, 20);
-    display(list); //  10 15 20 30 20 20 
+    insertSorted(&list, 100); // insert 100 at last index
+    display(list); // 10 15 20 30 100
+
+    insertRear(&list, 100); // Add duplicate for deletion tests
+    display(list); // 10 15 20 30 100 100
 
     printf("\nTesting overflow (capacity 6 full):\n");
     bool overflowResult = insertRear(&list, 99);
@@ -35,21 +38,21 @@ int main ()
     printf("\n=== 4. TESTING DELETIONS ===\n");
     deleteFront(&list);
     printf("After deleteFront: ");
-    display(list); //  15 20 30 20 20 
+    display(list); // 15 20 30 100 100
 
     deleteRear(&list);
     printf("After deleteRear: ");
-    display(list); //  15 20 30 20 
+    display(list); // 15 20 30 100
 
     deleteItem(&list, 30);
     printf("After deleteItem(30): ");
-    display(list); //  15 20 20 
+    display(list); // 15 20 100
 
     printf("\n=== 5. TESTING DELETE ALL OCCURRENCES ===\n");
     int removed = deleteAllItem(&list, 20);
     printf("Removed %d occurrence(s) of 20.\n", removed);
     printf("After deleteAllItem(20): ");
-    display(list); //  15 
+    display(list); // 15 100
 
     printf("\n=== 6. CLEANUP ===\n");
     freeList(&list);
