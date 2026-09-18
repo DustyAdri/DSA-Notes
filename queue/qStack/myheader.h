@@ -1,13 +1,14 @@
 #ifndef MYHEADER_H
 #define MYHEADER_H
 
-#define MAX 5
+#define MAX 6
 
 typedef struct {
     int prodID;
     char kopiName[20];
     int size;
     double prodPrice;
+    int isVip;
 } ProductOrder;
 
 typedef struct {
@@ -32,5 +33,6 @@ void stackPush(QPtr q, ProductOrder po);
 void stackPop(QPtr q);
 void upsizeDrink(QPtr q, int prodID);
 Queue filterAndRemoveBySize(QPtr mainQ, int targetSize);
+void insertVIPOrder (QPtr q, ProductOrder vipOrder);
 
 #endif

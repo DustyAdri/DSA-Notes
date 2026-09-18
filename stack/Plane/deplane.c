@@ -40,11 +40,11 @@ void deplanePassengers(BoardingList* list)
  
                 if (!abcHas && !defHas) continue; // empty rows
  
-                int isLeft = side;
-                if (isLeft == 0 && !abcHas) isLeft = 1;
-                else if (isLeft == 1 && !defHas) isLeft = 0;
+                int isRight = side;
+                if (isRight == 0 && !abcHas) isRight = 1;
+                else if (isRight == 1 && !defHas) isRight = 0;
  
-                if (isLeft == 0) 
+                if (isRight == 0) 
                 {
                     while (!isEmpty_v1(&list->seatRows[i].ABC)) 
                     {
@@ -64,7 +64,7 @@ void deplanePassengers(BoardingList* list)
                 }
  
                 currentRow = i;
-                if (isLeft == side) side = 1 - side;
+                if (isRight == side) side = 1 - side;
                 // switch sides if we deplaned the expected side
             }
         }

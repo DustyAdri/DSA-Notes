@@ -5,10 +5,11 @@
 
 static int allocNode(Stack *s)
 {
-    if (s->avail == -1)
-        return -1;
     int retVal = s->avail;
-    s->avail = s->elems[retVal].next;
+    if(retVal != -1)
+    {
+        s->avail = s->elems[retVal].next;
+    }
     return retVal;
 }
 

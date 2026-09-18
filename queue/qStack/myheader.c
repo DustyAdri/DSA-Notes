@@ -73,8 +73,9 @@ void stackPush(QPtr q, ProductOrder po)
     enqueue(q, po);
     for(int i = 0; i < count; ++i)
     {
+        ProductOrder temp = front(*q);
         dequeue(q);
-        enqueue(q, front(*q));
+        enqueue(q, temp);
     } 
 }
 
@@ -91,31 +92,73 @@ void upsizeDrink(QPtr q, int prodID)
 
     for(int i = 0; i < count; ++i)
     {
-        if(prodID == front(*q).prodID && front(*q).prodID < 5)
+        ProductOrder temp = front(*q);
+        if(prodID == temp.prodID && temp.size < 4)
         {
-            q->orders[q->front].prodPrice += 25;
-            q->orders[q->front].size += 1;
+            temp.prodPrice += 25;
+            temp.size += 1;
         }
         dequeue(q);
-        enqueue(q, front(*q));
+        enqueue(q, temp);
     }
 }
 
 Queue filterAndRemoveBySize(QPtr mainQ, int targetSize)
 {
     Queue temp;
+    Queue cancelled;
+    initQueue(&cancelled);
     initQueue(&temp);
     while (!isEmpty(*mainQ))
     {
-        if(targetSize != front(*mainQ).size) // if not the size
+        ProductOrder prod = front(*mainQ);
+        if(targetSize == prod.size) // if the size
         {
-            enqueue(&temp, front(*mainQ)); // add to new queue
+            enqueue(&cancelled, prod); // add to new queue
+        }
+        else
+        {
+            enqueue(&temp, prod);
         }
         dequeue(mainQ);
     }
-    return temp;
+
+    while (!isEmpty(temp))
+    {
+        enqueue(mainQ, front(temp));
+        dequeue(&temp);
+    }
+
+    return cancelled;
 }
 
+void insertVIPOrder (QPtr q, ProductOrder vipOrder)
+{
+    Queue temp;
+    // dequeue all non-vips
+    // enqueue non-vips to temp queue
+    // enqueue ang new viporder orig que
+    // enqueue all non-vips back to original
+    initQueue(&temp);
+    ProductOrder new = front(*q);
+
+    while(new.isVip == 0)
+    {
+        if(new.isVip != 0)
+        {
+            enqueue(&temp, new);
+        }
+        dequeue(q);
+        new = front(*q);
+    }
+
+    while(!isEmpty(temp))
+    {
+        ProductOrder new = front(temp);
+        enqueue(q, new);
+        dequeue(&temp);
+    }
+}
 
 // enqueue new num
 // enqueue front until num count and add front and rear
